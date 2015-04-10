@@ -9,6 +9,7 @@
 
 .w {
     padding: 16px;
+    padding-right: 25px;
     position: absolute;
     z-index: 4;
     border: 1px solid #2e6f9a;
@@ -56,10 +57,10 @@
 
 .ep {
     position: absolute;
-    bottom: 37%;
+    bottom: 9px;
     right: 5px;
-    width: 1em;
-    height: 1em;
+    width: 15px;
+    height: 25px;
     background-color: orange;
     cursor: pointer;
     box-shadow: 0 0 2px black;
@@ -79,8 +80,8 @@
 <?php
 	foreach ($states as $key => $name) {
 		print("#state{$key} {\n");
-		print("\tleft: " . (column($key) * 150) . "px;\n");
-		print("\ttop: " . (row($key) * 100) . "px;\n");
+		print("\tleft: 10px;\n");
+		print("\ttop: " . ($key * 32) . "px;\n");
 		print("}\n");
 	}
 ?>

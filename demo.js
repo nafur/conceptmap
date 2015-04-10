@@ -1,36 +1,59 @@
 jsPlumb.ready(function () {
 
+	var logdata = new Array();
+	
+    function stateName(s) {
+    	return $("#" + s + "-name").html();
+    }
+	function log(s, c, data) {
+		if (data) logdata.push([s, stateName(c.sourceId), c.sourceId, stateName(c.targetId), c.targetId, data]);
+		else logdata.push([s, stateName(c.sourceId), c.sourceId, stateName(c.targetId), c.targetId]);
+	}
+
     // setup some defaults for jsPlumb.
     var instance = jsPlumb.getInstance({
         Endpoint: ["Dot", {radius: 2}],
-        HoverPaintStyle: {strokeStyle: "#1e8151", lineWidth: 2 },
+        /*HoverPaintStyle: {strokeStyle: "#1e8151", lineWidth: 2 },*/
         ConnectionOverlays: [
-            [ "Arrow", {
-                location: 1,
-                id: "arrow",
-                length: 14,
-                foldback: 0.8
-            } ],
-            [ "Label", { label: "", id: "label", cssClass: "aLabel edit" }]
+            [ "Arrow", { location: 1, id: "arrow", length: 14, foldback: 0.8 } ],
+            [ "Label", { label: "", id: "label", cssClass: "aLabel edit", location: 0.6 }],
+            [ "Label", { label: "x", id: "delete", cssClass: "aLabel", location: 0.25,
+            	events:{click:function(overlay,event){
+            		var c = overlay.component;
+            		log("detach", c);
+            		jsPlumb.detach(c);
+				}}
+            }]
         ],
         Container: "conceptmap"
     });
 
     window.jsp = instance;
-
     var windows = jsPlumb.getSelector(".conceptmap .w");
 
     // initialise draggable elements.
-    instance.draggable(windows);
+    instance.draggable(windows, {containment: "parent"});
     
-    // bind a connection listener. note that the parameter passed to this function contains more than
-    // just the new connection - see the documentation for a full list of what is included in 'info'.
-    // this listener sets the connection's internal
-    // id as the label overlay's text.
+    // On create connection
     instance.bind("connection", function (info) {
+    	log("connect", info);
         info.connection.getOverlay("label").setLabel("???");
-        $(".edit").editable(function(value,settings){ return (value); },{});
+        $(".edit").editable(function(value,settings){ 
+        	log("rename", info, value);
+        	return (value); 
+		},{});
     });
+    
+    // Send data to server every few seconds
+    function sendData() {
+    	$.ajax({
+    		type: "POST",
+    		url: "ajax.php",
+    		data: { "session": "test", "data": logdata },
+    		success: function(data,status,xhr) {}
+    	});
+    }
+    setInterval(sendData, 3000);
 
 
     // suspend drawing and initialise.
@@ -50,15 +73,8 @@ jsPlumb.ready(function () {
         instance.makeTarget(windows, {
             dropOptions: { hoverClass: "dragHover" },
             anchor: "Continuous",
-            allowLoopback: true
+            allowLoopback: false
         });
 
-        // and finally, make a couple of connections
-        //instance.connect({ source: "opened", target: "phone1" });
-        //instance.connect({ source: "phone1", target: "phone1" });
-        //instance.connect({ source: "phone1", target: "inperson" });
     });
-
-    jsPlumb.fire("jsPlumbDemoLoaded", instance);
-
 });

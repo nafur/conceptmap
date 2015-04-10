@@ -118,16 +118,14 @@ body {
 }
 
  #main {  
-  margin-top: 106px;  
+  margin-top: 0px;  
   font-size: 80%;    
-  width: 80%;
+  width: 100%;
   margin-left:auto;
   margin-right: auto;  
-  height: 600px;
+  height: 100%;
   text-align: center;
   position: relative;
-  max-width: 1200px;
-  max-height: 1000px;
 }
 
 .demo {
@@ -135,9 +133,9 @@ body {
   width:100%;
   background-color:white;    
   overflow:auto;  
-  margin-top: 53px;
-  margin-bottom:25px;
-  height: 600px;
+  margin-top: 0px;
+  margin-bottom:0px;
+  height: 650px;
 }
 
 .explanation {

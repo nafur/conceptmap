@@ -4,6 +4,7 @@
 ?>
 <html>
 	<head>
+		<meta charset="utf8" />
 		<link rel="stylesheet" href="jsplumb.css" />
 		<link rel="stylesheet" href="demo.css.php" />
 		<script	src="jquery-1.9.0-min.js"></script>
@@ -18,7 +19,7 @@
 		<div class="demo conceptmap" id="conceptmap">
 <?php
 	foreach ($states as $key => $name) {
-		print("\t\t\t<div class=\"w\" id=\"state{$key}\">{$name} <div class=\"ep\"></div></div>\n");
+		print("\t\t\t<div class=\"w\" id=\"state{$key}\"><span id=\"state{$key}-name\">{$name}</span> <div class=\"ep\"></div></div>\n");
 	}
 ?>
     	</div>
