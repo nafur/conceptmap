@@ -8,10 +8,11 @@
 }
 
 .w {
-    padding: 16px;
+    padding: 7px;
     padding-right: 25px;
     position: absolute;
     z-index: 4;
+    width: 12.5em;
     border: 1px solid #2e6f9a;
     box-shadow: 2px 2px 19px #e0e0e0;
     -o-box-shadow: 2px 2px 19px #e0e0e0;
@@ -30,8 +31,8 @@
 }
 
 .w:hover {
-    background-color: #5c96bc;
-    color: white;
+    //background-color: #5c96bc;
+    //color: white;
 
 }
 
@@ -42,8 +43,8 @@
 }
 
 .aLabel._jsPlumb_hover, ._jsPlumb_source_hover, ._jsPlumb_target_hover {
-    background-color: #1e8151;
-    color: white;
+    //background-color: #1e8151;
+    //color: white;
 }
 
 .aLabel {
@@ -57,7 +58,7 @@
 
 .ep {
     position: absolute;
-    bottom: 9px;
+    bottom: 2px;
     right: 5px;
     width: 15px;
     height: 25px;
@@ -78,10 +79,10 @@
 }
 
 <?php
-	foreach ($states as $key => $name) {
-		print("#state{$key} {\n");
+	for ($i = 0; $i < $maxexp; $i++) {
+		print("#state{$i} {\n");
 		print("\tleft: 10px;\n");
-		print("\ttop: " . ($key * 32) . "px;\n");
+		print("\ttop: " . ($i * 32) . "px;\n");
 		print("}\n");
 	}
 ?>

@@ -295,7 +295,7 @@ a:active {
 }
 .aLabel._jsPlumb_hover {
   background-color:#5C96BC;
-  color:white;  
+  //color:white;  
   border:1px solid white;
 }
 
