@@ -1,6 +1,6 @@
 <?php
 $experiments = Array(
-	"Blutkreislauf" => Array(
+	"Strömungsmechanik / Blutkreislauf" => Array(
 		"Blut",
 		"Serienschaltung",
 		"Blutkreislauf",
@@ -20,7 +20,7 @@ $experiments = Array(
 		"Herzklappen",
 		"Modell",
 	),
-	"Ionenkanone" => Array(
+	"Elektrische Leitung / Ionenleitung" => Array(
 		"Ionen",
 		"Kanone",
 	),
@@ -37,8 +37,12 @@ if (isset($_GET["experiment"])) {
 }
 if (isset($_GET["session"])) {
 	$session = $_GET["session"];
+} else if (isset($_GET["newsession"])) {
+	$session = $_GET["newsession"] . "_" . time();
 } else {
 	$session = "";
 }
+
+$session_filename = base64_encode("{$experiment_name}-{$session}");
 
 ?>

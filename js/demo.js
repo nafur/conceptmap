@@ -1,6 +1,7 @@
 jsPlumb.ready(function () {
-
-	var logdata = new Array();
+	
+	var past = new Array();
+	var future = new Array();
 	var base = $.now();
 	
     function stateName(s) {
@@ -9,10 +10,10 @@ jsPlumb.ready(function () {
 	function log(s, c, d1, d2, d3) {
 		var t = $.now() - base;
 		var data = [s, t, stateName(c.sourceId), c.sourceId, stateName(c.targetId), c.targetId];
-		if (d1) data.push(d1);
-		if (d2) data.push(d2);
-		if (d3) data.push(d3);
-		logdata.push(data);
+		if (d1 !== null && d1 !== undefined) data.push(d1);
+		if (d2 !== null && d2 !== undefined) data.push(d2);
+		if (d3 !== null && d3 !== undefined) data.push(d3);
+		past.push(data);
 	}
 
     // setup some defaults for jsPlumb.
@@ -38,7 +39,7 @@ jsPlumb.ready(function () {
     
     function layout() {
 		var instance = window.jsp;
-		var options = {name: "springy", animate: false, padding: 100, infinite: false, maxSimulationTime: 1000, random: true, fit: true, boundingBox: {x1: 0,y1: 0,w: $("#conceptmap").width()-100,h: $("#conceptmap").height()-100}};
+		var options = {name: "springy", repulsion: 10000, animate: false, padding: 100, infinite: false, maxSimulationTime: 1000, random: true, fit: true, boundingBox: {x1: 0,y1: 0,w: $("#conceptmap").width()-100,h: $("#conceptmap").height()-100}};
 //		var options = {name: "cola", maxSimulationTime: 1000, randomize: true, fit: false, boundingBox: {x1: 0,y1: 0,w: $("#conceptmap").width() - 150,h: $("#conceptmap").height() - 150}};
 		var cy = cytoscape({headless: true, layout: options});
 		$('.w').each(function(i,obj){ cy.add({ group: "nodes", data: {id: obj.id}, position: {x: i*20, y: i*20} }); });
@@ -53,48 +54,76 @@ jsPlumb.ready(function () {
 	}
 	$("#layout").click(layout);
 
-	function undo() {
-		if (logdata.length == 0) return;
-		var a = logdata.pop();
+	function backward() {
+		if (past.length == 0) return;
+		var a = past.pop();
+		future.push(a);
 		if (a[0] == "connect") {
 			var c = instance.getConnections({source: a[3], target: a[5]})[0];
 			jsPlumb.detach(c);
 		} else if (a[0] == "detach") {
 			var c = instance.connect({source: a[3], target: a[5]});
+			past.pop();
 		} else if (a[0] == "rename") {
 			var c = instance.getConnections({source: a[3], target: a[5]})[0];
 			c.getOverlay("label").setLabel(a[6]);
 		}
+//		alert(past + " -- " + future);
 	}
-	$("#undo").click(undo);
-	function redo(data) {
-		for (var i = 0; i < data.length; i++) {
-			var c = data[i];
-			if (c[0] == "connect") {
-				instance.connect({source: c[3], target: c[5]});
-			} else if (c[0] == "detach") {
-				var conn = instance.getConnections({source: c[3], target: c[5]})[0];
-				jsPlumb.detach(conn);
-			} else if (c[0] == "rename") {
-				var conn = instance.getConnections({source: c[3], target: c[5]})[0];
-				conn.getOverlay("label").setLabel(c[6]);
-			}
+	$("#backward").click(backward);
+	function forward() {
+		if (future.length == 0) return;
+		var c = future.pop();
+		past.push(c);
+		if (c[0] == "connect") {
+			instance.connect({source: c[3], target: c[5]});
+			past.pop();
+		} else if (c[0] == "detach") {
+			var conn = instance.getConnections({source: c[3], target: c[5]})[0];
+			jsPlumb.detach(conn);
+		} else if (c[0] == "rename") {
+			var conn = instance.getConnections({source: c[3], target: c[5]})[0];
+			conn.getOverlay("label").setLabel(c[7]);
 		}
-		logdata = data;
+//		alert(past + " -- " + future);
 	}
+	$("#forward").click(forward);
 	
+	function findEmptyLabels() {
+		var res = [];
+		var conns = instance.getConnections();
+		for (var i = 0; i < conns.length; i++) {
+			var ol = conns[i].getOverlay("label");
+			var str = ol.canvas.innerHTML;
+			if (str == "Click to edit") res.push(ol.canvas);
+		}
+		return res;
+	}
 	
 	function finish() {
 		if (session != "") {
-			$.ajax({
-    			type: "POST",
-    			url: "ajax.php",
-    			data: { "session": experiment + "-" + session, "finish": "1", "data": logdata },
-	    		success: function(data,status,xhr) {
-    				alert("Thank you! You are being redirected...");
-    				$(location).attr("href", "index.php");
-    			}
-	    	});
+			var empty = findEmptyLabels();
+			if (empty.length > 0) {
+				if (!confirm("Du hast noch unbeschriftete Pfeile. Bist du dir sicher?")) {
+					//$.each(empty).effect("highlight", {}, 3000);
+					$.each(empty, function(i,e){$(e).css("background-color", "red");});
+					setTimeout(function(){
+						$.each(empty, function(i,e){$(e).css("background-color", "white");});
+					}, 1000);
+					return;
+				}
+			}
+			if (confirm("Möchtest du die ConceptMap wirklich abschließen?") === true) {
+				$.ajax({
+    				type: "POST",
+    				url: "ajax.php",
+    				data: { "session": experiment + "-" + session, "finish": "1", "data": past },
+	    			success: function(data,status,xhr) {
+    					alert("Vielen Dank!");
+    					$(location).attr("href", "index.php");
+    				}
+	    		});
+	    	}
 		}
 	}
 	$("#finish").click(finish);
@@ -106,17 +135,12 @@ jsPlumb.ready(function () {
     instance.bind("connection", function (info) {
     	log("connect", info);
         info.connection.getOverlay("label").setLabel("");
-        $(".edit").editable(function(value,settings){ 
-        	var c = instance.getConnections({source: info.sourceId, target: info.targetId});
-        	for (i = 0; i < c.length; i++) {
-        		if (c[i].id == info.connection.id) {
-        			c = c[i];
-        			break;
-        		}
-        	}
-        	log("rename", info, c.getOverlay("label").label, value);
+        $(".edit").editable(function(value,settings,arg){ 
+        	log("rename", info, arg, value);
         	return (value); 
-		},{});
+		},{
+			submitdata: function(val,settings) { return {original: this.revert}; }
+		});
 		//info.connection.getOverlay("label").canvas.trigger("click");
     });
     
@@ -126,7 +150,7 @@ jsPlumb.ready(function () {
 	    	$.ajax({
     			type: "POST",
     			url: "ajax.php",
-    			data: { "session": experiment + "-" + session, "data": logdata },
+    			data: { "session": experiment + "-" + session, "data": past },
 	    		success: function(data,status,xhr) {}
     		});
 		}
@@ -155,7 +179,11 @@ jsPlumb.ready(function () {
         });
 
     });
-    redo(restore_data);
+    
+    while (restore_data.length > 0) {
+    	future.push(restore_data.pop());
+    }
+    //redo(restore_data);
     
     //$("#draggable").draggable();
 });

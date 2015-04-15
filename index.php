@@ -16,7 +16,7 @@
 			<a class="btn btn-default" href="admin.php">Admin</a>
 		</div>
 <?php } ?>
-		<h2>Create new session</h2>
+		<h2>Experiment starten</h2>
 		<form action="test.php" class="form-horizontal">
 			<div class="form-group">
 				<label for="experiment" class="col-sm-2 control-label">Experiment</label>
@@ -31,14 +31,14 @@
 				</div>
 			</div>
 			<div class="form-group">
-				<label for="session" class="col-sm-2 control-label">Session</label>
+				<label for="newsession" class="col-sm-2 control-label">Dein Code</label>
 				<div class="col-sm-10">
-				<input type="text" class="form-control" name="session" placeholder="Session name" />
+				<input type="text" class="form-control" name="newsession" placeholder="Dein Code..." />
 				</div>
 			</div>
 			<div class="form-group">
 				<div class="col-sm-offset-2 col-sm-10">
-				<button type="submit" class="btn btn-default">Create</button>
+				<button type="submit" class="btn btn-default">Start</button>
 				</div>
 			</div>
 		</form>
@@ -57,7 +57,7 @@
 			<tbody>
 <?php
 	foreach (scandir("sessions/") as $file) {
-		if (preg_match("/(.*)-(.*)/", $file, $m)) {
+		if (preg_match("/(.*)-(.*)/", base64_decode($file), $m)) {
 			print("\t\t\t\t<tr>\n");
 			print("\t\t\t\t\t<td>{$m[1]}</td>\n");
 			print("\t\t\t\t\t<td>{$m[2]}</td>\n");
@@ -84,12 +84,13 @@
 			<tbody>
 <?php
 	foreach (scandir("finished/") as $file) {
-		if (preg_match("/(.*)-(.*)/", $file, $m)) {
+		if (preg_match("/(.*)-(.*)/", base64_decode($file), $m)) {
 			print("\t\t\t\t<tr>\n");
 			print("\t\t\t\t\t<td>{$m[1]}</td>\n");
 			print("\t\t\t\t\t<td>{$m[2]}</td>\n");
 			print("\t\t\t\t\t<td><div class=\"btn-group\" role=\"group\">\n");
 			print("<a class=\"btn btn-default\" href=\"show.php?experiment={$m[1]}&session={$m[2]}\"><span class=\"glyphicon glyphicon-search\"></span> show</a>\n");
+			print("<a class=\"btn btn-default\" href=\"export.php?file={$m[1]}-{$m[2]}&download=1\"><span class=\"glyphicon glyphicon-download-alt\"></span> download</a>\n");
 			print("\t\t\t\t\t</div></td>\n");
 			print("\t\t\t\t</tr>\n");
 		}

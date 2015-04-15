@@ -2,8 +2,8 @@
 <?php
 	include("config.php");
 
-	if (file_exists("finished/{$experiment_name}-{$session}")) {
-		$data = json_decode(file_get_contents("finished/{$experiment_name}-{$session}"));
+	if (file_exists("finished/{$session_filename}")) {
+		$data = json_decode(file_get_contents("finished/{$session_filename}"));
 	} else $data = Array();
 ?>
 <html>
@@ -34,9 +34,10 @@ var restore_data = JSON.parse('<?php print(json_encode($data)); ?>');
 				<a class="navbar-brand" href="admin.php">ConceptMap</a>
 			</div>
 			<ul class="nav navbar-nav navbar-right">
-				<li><a href="#" id="undo">Undo</a></li>
+				<li><a href="#" id="backward">Backward</a></li>
+				<li><a href="#" id="forward">Forward</a></li>
 				<li><a href="#" id="layout">Layout</a></li>
-				<li><a href="#" id="finish">Finish</a></li>
+				<li><a href="export.php?file=<?php print("{$experiment_name}-{$session}"); ?>">Export</a></li>
 			</ul>
 		</div>
 	</div>

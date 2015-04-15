@@ -308,7 +308,7 @@
 
                           /* Check if given target is function */
                           if ($.isFunction(settings.target)) {
-                              var str = settings.target.apply(self, [input.val(), settings]);
+                              var str = settings.target.apply(self, [input.val(), settings, self.revert]);
                               $(self).html(str);
                               self.editing = false;
                               callback.apply(self, [self.innerHTML, settings]);
@@ -347,7 +347,7 @@
                                         $(self).html(result);
                                       }
                                       self.editing = false;
-                                      callback.apply(self, [result, settings]);
+                                      callback.apply(self, [result, settings, self.revert]);
                                       if (!$.trim($(self).html())) {
                                           $(self).html(settings.placeholder);
                                       }

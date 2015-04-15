@@ -2,8 +2,8 @@
 <?php
 	include("config.php");
 
-	if (file_exists("sessions/{$experiment_name}-{$session}")) {
-		$data = json_decode(file_get_contents("sessions/{$experiment_name}-{$session}"));
+	if (file_exists("sessions/{$session_filename}")) {
+		$data = json_decode(file_get_contents("sessions/{$session_filename}"));
 	} else $data = Array();
 ?>
 <html>
@@ -18,6 +18,7 @@
 		<script src="js/jquery.jsPlumb-1.7.5.js"></script>
 		<script src="js/jquery.jeditable.js"></script>
 		<script src="js/jquery.simulate.js"></script>
+		<script src="js/jquery.pulse.min.js"></script>
 		<script src="js/springy.js"></script>
 		<script src="js/cytoscape.min.js"></script>
 		<script>
@@ -34,9 +35,9 @@ var restore_data = JSON.parse('<?php print(json_encode($data)); ?>');
 				<a class="navbar-brand" href="#">ConceptMap</a>
 			</div>
 			<ul class="nav navbar-nav navbar-right">
-				<li><a href="#" id="undo">Undo</a></li>
-				<li><a href="#" id="layout">Layout</a></li>
-				<li><a href="#" id="finish">Finish</a></li>
+				<li><a href="#" id="backward"><span class="glyphicon glyphicon-arrow-left"></span> Rückwärts</a></li>
+				<li><a href="#" id="forward"><span class="glyphicon glyphicon-arrow-right"></span> Vorwärts</a></li>
+				<li><a href="#" id="finish"><span class="glyphicon glyphicon-ok"></span> Fertig</a></li>
 			</ul>
 		</div>
 	</div>
