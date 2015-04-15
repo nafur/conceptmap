@@ -21,9 +21,29 @@ $experiments = Array(
 		"Modell",
 	),
 	"Elektrische Leitung / Ionenleitung" => Array(
-		"Ionen",
-		"Kanone",
+		"Elektrische Stromstärke",
+		"Leitungseigenschaften",
+		"Intrazelluläre Flüssigkeiten",
+		"Länge und Querschnittsfläche",
+		"Elektrische Spannung",
+		"Ionenkanäle",
+		"Extrazelluläre Flüssigkeiten",
+		"Ohmscher Widerstand",
+		"Biologische Membran",
+		"Zusammensetzung",
+		"Diode",
+		"Elektrolyt",
+		"Leiter",
 	),
+);
+$cssconfig = Array(
+	"Strömungsmechanik / Blutkreislauf" => Array(
+		"height" => 32,
+	),
+	"Elektrische Leitung / Ionenleitung" => Array(
+		"height" => 48,
+	),
+	"" => Array(),
 );
 $maxexp = 0;
 foreach ($experiments as $key => $val) $maxexp = max($maxexp, count($val));
@@ -44,5 +64,5 @@ if (isset($_GET["session"])) {
 }
 
 $session_filename = base64_encode("{$experiment_name}-{$session}");
-
+$css = $cssconfig[$experiment_name];
 ?>

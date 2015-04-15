@@ -11,7 +11,7 @@
 		<meta charset="utf8" />
 		<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" />
 		<link rel="stylesheet" href="jsplumb.css" />
-		<link rel="stylesheet" href="demo.css.php" />
+		<link rel="stylesheet" href="demo.css.php?experiment=<?php print($experiment_name); ?>" />
 		<script	src="js/jquery-1.9.0-min.js"></script>
 		<script	src="js/jquery-ui-1.9.2.min.js"></script>
 		<script src="js/jquery.ui.touch-punch-0.2.2.min.js"></script>

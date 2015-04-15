@@ -8,11 +8,12 @@
 }
 
 .w {
-    padding: 7px;
+    padding: 0px;
+    padding-left: 7px;
     padding-right: 25px;
     position: absolute;
     z-index: 4;
-    width: 12.5em;
+    width: 13em;
     border: 1px solid #2e6f9a;
     box-shadow: 2px 2px 19px #e0e0e0;
     -o-box-shadow: 2px 2px 19px #e0e0e0;
@@ -58,10 +59,10 @@
 
 .ep {
     position: absolute;
-    bottom: 2px;
+    top: 3px;
+    bottom: 3px;
     right: 5px;
     width: 15px;
-    height: 25px;
     background-color: orange;
     cursor: pointer;
     box-shadow: 0 0 2px black;
@@ -79,11 +80,15 @@
 }
 
 <?php
+	var_dump($css);
 	for ($i = 0; $i < $maxexp; $i++) {
 		print("#state{$i} {\n");
 		print("\tleft: 10px;\n");
-		print("\ttop: " . ($i * 32) . "px;\n");
+		print("\theight: {$css["height"]}px;\n");
+		print("\tline-height: " . ($css["height"]) . "px;\n");
+		print("\ttop: " . ($i * ($css["height"]+2)) . "px;\n");
 		print("}\n");
+		print("#state$i span { line-height: 12px; vertical-align: middle; display: inline-block; }");
 	}
 ?>
 
