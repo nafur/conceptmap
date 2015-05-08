@@ -1,14 +1,25 @@
 <!doctype html>
 <?php
+	include("include/config.php");
 	if (isset($_GET["delete"])) {
-		unlink("sessions/{$_GET["delete"]}");
+		unlink("sessions/" . base64_encode($_GET["delete"]));
 	}
-	include("config.php");
 ?>
 <html>
 	<head>
 		<meta charset="utf8" />
-		<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" />
+		<link rel="stylesheet" href="static/bootstrap.min.css" />
+        <script	src="static/jquery-1.9.0-min.js"></script>
+		<script>
+function validateForm() {
+	var code = $("#sessioncode").val();
+	if (code.length == 4) return true;
+	else {
+		alert("Der Code muss vierstellig sein!");
+		return false;
+	}
+}
+		</script>
 	</head>
 	<body style="padding: 10px;">
 <?php if(!$admin) { ?>
@@ -17,7 +28,7 @@
 		</div>
 <?php } ?>
 		<h2>Experiment starten</h2>
-		<form action="test.php" class="form-horizontal">
+		<form action="test.php" onsubmit="return validateForm()" class="form-horizontal">
 			<div class="form-group">
 				<label for="experiment" class="col-sm-2 control-label">Experiment</label>
 				<div class="col-sm-10">
@@ -30,10 +41,31 @@
 				</select>
 				</div>
 			</div>
+            <div class="row">
+            <div class="col-sm-8 col-sm-offset-2">
+            <table class="table table-bordered">
+            	<tr>
+                	<td>Daraus besteht Ihr Code:</td>
+                    <td>Die ersten zwei Buchstaben im Vornamen Ihrer Mutter:</td>
+                    <td>Die ersten zwei Buchstaben im Vornamen Ihres Vaters:</td>
+                </tr>
+                <tr>
+                	<td>Beispiel:</td>
+                    <td>Renate</td>
+                    <td>Wolfgang</td>
+                </tr>
+                <tr>
+                	<td>Beispiel-Code:</td>
+                    <td>RE</td>
+                    <td>WO</td>
+                </tr>
+            </table>
+            </div>
+            </div>
 			<div class="form-group">
-				<label for="newsession" class="col-sm-2 control-label">Dein Code</label>
-				<div class="col-sm-10">
-				<input type="text" class="form-control" name="newsession" placeholder="Dein Code..." />
+				<label for="newsession" class="col-sm-2 control-label" style="font-size: 24px;">Ihr Code</label>
+				<div class="col-sm-3">
+				<input type="text" size="4" class="form-control input-lg" style="font-size: 24px;" id="sessioncode" name="newsession" placeholder="Ihr Code..." maxlength="4" />
 				</div>
 			</div>
 			<div class="form-group">
@@ -64,6 +96,7 @@
 			print("\t\t\t\t\t<td><div class=\"btn-group\" role=\"group\">\n");
 			print("<a class=\"btn btn-default\" href=\"test.php?experiment={$m[1]}&session={$m[2]}\"><span class=\"glyphicon glyphicon-pencil\"></span> edit</a>\n");
 			print("<a class=\"btn btn-default\"  href=\"?delete={$m[1]}-{$m[2]}\"><span class=\"glyphicon glyphicon-remove\"></span> delete</a>\n");
+			print("<a class=\"btn btn-default\" href=\"export.php?folder=sessions&file={$m[1]}-{$m[2]}&download=1\"><span class=\"glyphicon glyphicon-download-alt\"></span> download</a>\n");
 			print("\t\t\t\t\t</div></td>\n");
 			print("\t\t\t\t</tr>\n");
 		}
@@ -90,7 +123,7 @@
 			print("\t\t\t\t\t<td>{$m[2]}</td>\n");
 			print("\t\t\t\t\t<td><div class=\"btn-group\" role=\"group\">\n");
 			print("<a class=\"btn btn-default\" href=\"show.php?experiment={$m[1]}&session={$m[2]}\"><span class=\"glyphicon glyphicon-search\"></span> show</a>\n");
-			print("<a class=\"btn btn-default\" href=\"export.php?file={$m[1]}-{$m[2]}&download=1\"><span class=\"glyphicon glyphicon-download-alt\"></span> download</a>\n");
+			print("<a class=\"btn btn-default\" href=\"export.php?folder=finished&file={$m[1]}-{$m[2]}&download=1\"><span class=\"glyphicon glyphicon-download-alt\"></span> download</a>\n");
 			print("\t\t\t\t\t</div></td>\n");
 			print("\t\t\t\t</tr>\n");
 		}

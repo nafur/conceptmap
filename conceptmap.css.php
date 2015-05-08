@@ -1,19 +1,19 @@
 <?php
 	header("Content-Type: text/css");
-	include("config.php");
+	include("include/config.php");
 ?>
-.demo {
+.conceptmap {
     /* for IE10+ touch devices */
     touch-action:none;
 }
 
 .w {
     padding: 0px;
-    padding-left: 7px;
+    padding-left: 0px;
     padding-right: 25px;
     position: absolute;
     z-index: 4;
-    width: 13em;
+    width: 14em;
     border: 1px solid #2e6f9a;
     box-shadow: 2px 2px 19px #e0e0e0;
     -o-box-shadow: 2px 2px 19px #e0e0e0;
@@ -29,12 +29,21 @@
     -webkit-transition: background-color 0.25s ease-in;
     -moz-transition: background-color 0.25s ease-in;
     transition: background-color 0.25s ease-in;
+    white-space:pre-line;
 }
 
 .w:hover {
-    //background-color: #5c96bc;
-    //color: white;
+    /*background-color: #5c96bc;*/
+    /*color: white;*/
 
+}
+
+.w-drag-box {
+	position: absolute;
+    left: 0px;
+    top: 0px;
+    bottom: 0px;
+    right: 40px;
 }
 
 .aLabel {
@@ -44,8 +53,8 @@
 }
 
 .aLabel._jsPlumb_hover, ._jsPlumb_source_hover, ._jsPlumb_target_hover {
-    //background-color: #1e8151;
-    //color: white;
+    /*background-color: #1e8151;*/
+    /*color: white;*/
 }
 
 .aLabel {
@@ -59,13 +68,13 @@
 
 .ep {
     position: absolute;
-    top: 3px;
-    bottom: 3px;
-    right: 5px;
-    width: 15px;
+    top: 1.5px;
+    bottom: 1.5px;
+    right: 3px;
+    width: 25px;
     background-color: orange;
     cursor: pointer;
-    box-shadow: 0 0 2px black;
+    box-shadow: 0 0 1.5px black;
     -webkit-transition: -webkit-box-shadow 0.25s ease-in;
     -moz-transition: -moz-box-shadow 0.25s ease-in;
     transition: box-shadow 0.25s ease-in;

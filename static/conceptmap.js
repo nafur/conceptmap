@@ -2,18 +2,30 @@ jsPlumb.ready(function () {
 	
 	var past = new Array();
 	var future = new Array();
-	var base = $.now();
+	var baseTime = $.now();
 	
     function stateName(s) {
     	return $("#" + s + "-name").html();
     }
 	function log(s, c, d1, d2, d3) {
-		var t = $.now() - base;
+		var t = $.now() - baseTime;
 		var data = [s, t, stateName(c.sourceId), c.sourceId, stateName(c.targetId), c.targetId];
 		if (d1 !== null && d1 !== undefined) data.push(d1);
 		if (d2 !== null && d2 !== undefined) data.push(d2);
 		if (d3 !== null && d3 !== undefined) data.push(d3);
 		past.push(data);
+	}
+	
+	function checkTime() {
+		var curTime = $.now();
+		var diff = Math.floor((curTime - baseTime) / 1000);
+		var min = Math.floor(diff / 60);
+		var sek = Math.floor(diff % 60);
+		
+		if (min == 10 && sek == 0) alert("Bitte kommen Sie zum Ende.");
+		
+		if (sek < 10) sek = '0' + sek;
+		$('#zeit').html(min + ':' + sek);		
 	}
 
     // setup some defaults for jsPlumb.
@@ -22,7 +34,7 @@ jsPlumb.ready(function () {
         /*HoverPaintStyle: {strokeStyle: "#1e8151", lineWidth: 2 },*/
         ConnectionOverlays: [
             [ "Arrow", { location: 1, id: "arrow", length: 14, foldback: 0.8 } ],
-            [ "Label", { label: "", id: "label", cssClass: "aLabel edit", location: 0.6 }],
+			[ "Label", { label: "", id: "label", cssClass: "aLabel edit", location: 0.6 }],
             [ "Label", { label: "<span class=\"glyphicon glyphicon-remove\"></span>", id: "delete", cssClass: "aLabel", location: 0.25,
             	events:{click:function(overlay,event){
             		var c = overlay.component;
@@ -104,11 +116,10 @@ jsPlumb.ready(function () {
 		if (session != "") {
 			var empty = findEmptyLabels();
 			if (empty.length > 0) {
-				if (!confirm("Du hast noch unbeschriftete Pfeile. Bist du dir sicher?")) {
-					//$.each(empty).effect("highlight", {}, 3000);
+				if (!confirm("Du hast noch unbeschriftete Pfeile. Bist du dir sicher, dass du abgeben möchtest?")) {
 					$.each(empty, function(i,e){$(e).css("background-color", "red");});
 					setTimeout(function(){
-						$.each(empty, function(i,e){$(e).css("background-color", "white");});
+						$.each(empty, function(i,e){$(e).css("background-color", "");});
 					}, 1000);
 					return;
 				}
@@ -129,19 +140,23 @@ jsPlumb.ready(function () {
 	$("#finish").click(finish);
 
     // initialise draggable elements.
-    instance.draggable(windows, {containment: "parent"});
+    instance.draggable(windows, {containment: "parent", handle: ".w-drag"});
 
     // On create connection
     instance.bind("connection", function (info) {
     	log("connect", info);
+		instance.recalculateOffsets("conceptmap");
+		instance.repaintEverything();
         info.connection.getOverlay("label").setLabel("");
         $(".edit").editable(function(value,settings,arg){ 
         	log("rename", info, arg, value);
         	return (value); 
 		},{
-			submitdata: function(val,settings) { return {original: this.revert}; }
+			submitdata: function(val,settings) { return {original: this.revert}; },
+			onblur: "submit"
 		});
-		//info.connection.getOverlay("label").canvas.trigger("click");
+		var label = info.connection.getOverlay("label").canvas;
+		label.click();
     });
     
     // Send data to server every few seconds
@@ -183,7 +198,8 @@ jsPlumb.ready(function () {
     while (restore_data.length > 0) {
     	future.push(restore_data.pop());
     }
-    //redo(restore_data);
-    
-    //$("#draggable").draggable();
+    if ($("#zeit").length) {
+		setInterval(checkTime, 500);
+    }
 });
+

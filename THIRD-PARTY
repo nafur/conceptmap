@@ -1,0 +1,34 @@
+Used third-party libraries:
+
+- Bootstrap
+	http://getbootstrap.com/
+	MIT license
+
+- jQuery, jQuery UI
+	https://jquery.org
+	MIT license
+
+- jQuery UI Touch Punch
+	http://touchpunch.furf.com/
+	MIT license
+
+- jsPlumb
+	http://www.jsplumb.org/
+	MIT license
+
+- Jeditable
+	http://www.appelsiini.net/projects/jeditable
+	MIT license
+
+- jQuery simulate
+	https://github.com/jquery/jquery-simulate/
+	MIT-like license
+
+- Springy.js
+	http://getspringy.com/
+	MIT license
+
+- Cytoscape.js
+	http://js.cytoscape.org/
+	LGPL 3 (see third-party)
+

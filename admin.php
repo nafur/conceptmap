@@ -1,4 +1,4 @@
 <?php
-	include("auth.php");
+	include("include/auth.php");
 	include("index.php");
 ?>
