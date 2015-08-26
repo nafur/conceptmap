@@ -5,6 +5,9 @@
 .conceptmap {
     /* for IE10+ touch devices */
     touch-action:none;
+    height: 1000px;
+    position: absolute;
+    width: 100%;
 }
 
 .w {
@@ -89,7 +92,6 @@
 }
 
 <?php
-	var_dump($css);
 	for ($i = 0; $i < $maxexp; $i++) {
 		print("#state{$i} {\n");
 		print("\tleft: 10px;\n");
@@ -97,7 +99,7 @@
 		print("\tline-height: " . ($css["height"]) . "px;\n");
 		print("\ttop: " . ($i * ($css["height"]+2)) . "px;\n");
 		print("}\n");
-		print("#state$i span { line-height: 12px; vertical-align: middle; display: inline-block; }");
+		print("#state$i span { line-height: 12px; vertical-align: middle; display: inline-block; }\n");
 	}
 ?>
 
