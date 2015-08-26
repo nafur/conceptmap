@@ -14,7 +14,7 @@
 		<script	src="static/jquery-1.9.0-min.js"></script>
 		<script	src="static/jquery-ui-1.9.2.min.js"></script>
 		<script src="static/jquery.ui.touch-punch-0.2.2.min.js"></script>
-		<script src="static/dom.jsPlumb-1.7.5-min.js"></script>
+		<script src="static/dom.jsPlumb-1.7.6.js"></script>
 		<script src="static/jquery.jeditable.js"></script>
 		<script src="static/jquery.simulate.js"></script>
 		<script src="static/springy.js"></script>
