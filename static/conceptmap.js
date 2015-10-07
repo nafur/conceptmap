@@ -141,6 +141,15 @@ jsPlumb.ready(function () {
 
     // initialise draggable elements.
     instance.draggable(windows, {containment: "parent", handle: ".w-drag"});
+    
+    function triggerClick(elem) {
+    	if (elem.click) elem.click();
+    	else {
+			var ev = document.createEvent("MouseEvents");
+			ev.initEvent("click", true /* bubble */, true /* cancelable */);
+			elem.dispatchEvent(ev);
+    	}
+    }
 
     // On create connection
     instance.bind("connection", function (info) {
@@ -149,14 +158,16 @@ jsPlumb.ready(function () {
 		instance.repaintEverything();
         info.connection.getOverlay("label").setLabel("");
         $(".edit").editable(function(value,settings,arg){ 
-        	log("rename", info, arg, value);
+        	if (arg != value) {
+	        	log("rename", info, arg, value);
+			}
         	return (value); 
 		},{
 			submitdata: function(val,settings) { return {original: this.revert}; },
 			onblur: "submit"
 		});
 		var label = info.connection.getOverlay("label").canvas;
-		label.click();
+    	triggerClick(label);
     });
     
     // Send data to server every few seconds
