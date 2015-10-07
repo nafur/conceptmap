@@ -11,7 +11,7 @@
 		<link rel="stylesheet" href="static/bootstrap.min.css" />
 		<link rel="stylesheet" href="static/jsplumb.css" />
 		<link rel="stylesheet" href="conceptmap.css.php?experiment=<?php print($experiment_name); ?>" />
-		<script	src="static/jquery-1.9.0-min.js"></script>
+		<script	src="static/jquery-1.11.3.js"></script>
 		<script	src="static/jquery-ui-1.9.2.min.js"></script>
 		<script src="static/jquery.ui.touch-punch-0.2.2.min.js"></script>
 		<script src="static/dom.jsPlumb-1.7.6.js"></script>
