@@ -138,6 +138,20 @@ jsPlumb.ready(function () {
 		}
 	}
 	$("#finish").click(finish);
+	
+	function screenshot() {
+		html2canvas(document.body, {
+			logging: true,
+			useCORS: true,
+			allowTaint: true,
+			onrendered: function (canvas) {
+				img = canvas.toDataURL("image/png");
+				console.log(img);
+				window.open(img);
+			}
+		});
+	};
+	$("#screenshot").click(screenshot);
 
     // initialise draggable elements.
     instance.draggable(windows, {containment: "parent", handle: ".w-drag"});
@@ -189,8 +203,8 @@ jsPlumb.ready(function () {
         instance.makeSource(windows, {
             filter: ".ep",
             anchor: "Continuous",
-            connector: [ "StateMachine", { curviness: 20 } ],
-            connectorStyle: { strokeStyle: "#5c96bc", lineWidth: 2, outlineColor: "transparent", outlineWidth: 4 },
+            connector: [ "Straight" ],
+            connectorStyle: { strokeStyle: "#5c96bc", lineWidth: 2, outlineColor: "transparent", outlineWidth: 2 },
             maxConnections: 5,
             onMaxConnections: function (info, e) {
                 alert("Maximum connections (" + info.maxConnections + ") reached");
@@ -206,9 +220,9 @@ jsPlumb.ready(function () {
 
     });
     
-    while (restore_data.length > 0) {
-    	future.push(restore_data.pop());
-    }
+    //while (restore_data.length > 0) {
+    //	future.push(restore_data.pop());
+    //}
     if ($("#zeit").length) {
 		setInterval(checkTime, 500);
     }
