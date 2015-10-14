@@ -97,6 +97,7 @@ function validateForm() {
 			print("<a class=\"btn btn-default\" href=\"test.php?experiment={$m[1]}&session={$m[2]}\"><span class=\"glyphicon glyphicon-pencil\"></span> edit</a>\n");
 			print("<a class=\"btn btn-default\"  href=\"?delete={$m[1]}-{$m[2]}\"><span class=\"glyphicon glyphicon-remove\"></span> delete</a>\n");
 			print("<a class=\"btn btn-default\" href=\"export.php?folder=sessions&file={$m[1]}-{$m[2]}&download=1\"><span class=\"glyphicon glyphicon-download-alt\"></span> download</a>\n");
+			print("<a class=\"btn btn-default\" href=\"image.php?session={$m[1]}-{$m[2]}\"><span class=\"glyphicon glyphicon-picture\"></span> dot</a>\n");
 			print("\t\t\t\t\t</div></td>\n");
 			print("\t\t\t\t</tr>\n");
 		}
@@ -124,6 +125,7 @@ function validateForm() {
 			print("\t\t\t\t\t<td><div class=\"btn-group\" role=\"group\">\n");
 			print("<a class=\"btn btn-default\" href=\"show.php?experiment={$m[1]}&session={$m[2]}\"><span class=\"glyphicon glyphicon-search\"></span> show</a>\n");
 			print("<a class=\"btn btn-default\" href=\"export.php?folder=finished&file={$m[1]}-{$m[2]}&download=1\"><span class=\"glyphicon glyphicon-download-alt\"></span> download</a>\n");
+			print("<a class=\"btn btn-default\" href=\"image.php?session={$m[1]}-{$m[2]}\"><span class=\"glyphicon glyphicon-picture\"></span> dot</a>\n");
 			print("\t\t\t\t\t</div></td>\n");
 			print("\t\t\t\t</tr>\n");
 		}
