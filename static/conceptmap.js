@@ -184,6 +184,17 @@ jsPlumb.ready(function () {
     	triggerClick(label);
     });
     
+    function exportAsMap() {
+    	var graph = {};
+    	for (var i = 0; i < past.length; i++) {
+    		var a = past[i];
+    		if (a[0] == "connect") graph[a[2] + "###" + a[4]] = "";
+    		else if (a[0] == "rename") graph[a[2] + "###" + a[4]] = a[7];
+    		else if (a[0] == "detach") delete graph[a[2] + "###" + a[4]];
+    	}
+    	return graph;
+    }
+    
     // Send data to server every few seconds
     function sendData() {
     	if (session != "") {
@@ -191,6 +202,13 @@ jsPlumb.ready(function () {
     			type: "POST",
     			url: "ajax.php",
     			data: { "session": experiment + "-" + session, "data": past },
+	    		success: function(data,status,xhr) {}
+    		});
+    		var graph = exportAsMap();
+    		$.ajax({
+    			type: "POST",
+    			url: "ajax.php",
+    			data: { "session": experiment + "-" + session, "asdot": 1, "data": graph },
 	    		success: function(data,status,xhr) {}
     		});
 		}
