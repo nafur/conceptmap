@@ -10,13 +10,16 @@ if (isset($_POST["asdot"])) {
 	$s = "digraph g {\n";
 	foreach ($data as $k => $d) {
 		list($from,$to) = split("###", $k);
+		$from = str_replace("\"", "\\\"", $from);
+		$to = str_replace("\"", "\\\"", $to);
+		$d = str_replace("\"", "\\\"", $d);
 		$s .= "\t\"{$from}\" -> \"{$to}\" [label=\"{$d}\"];\n";
 	}
 	$s .= "\tlabelloc = \"t\";\n";
 	$s .= "\tlabel = \"{$session}\";\n";
 	$s .= "}\n";
 	
-	file_put_contents("dots/{$session_filename}.dot", $s);
+	file_put_contents("dots/{$session_filename}", $s);
 	
 	//exec("dot -Tpng -O dots/{$session_filename}.dot");
 	
