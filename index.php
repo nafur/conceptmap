@@ -144,6 +144,7 @@ function validateForm() {
 			print("<a class=\"btn btn-default\" href=\"show.php?experiment={$m[1]}&session={$m[2]}\"><span class=\"glyphicon glyphicon-search\"></span> show</a>\n");
 			print("<a class=\"btn btn-default\" href=\"export.php?type=single&folder=finished&file={$m[1]}-{$m[2]}&download=1\"><span class=\"glyphicon glyphicon-download-alt\"></span> download</a>\n");
 			print("<a class=\"btn btn-default\" href=\"export.php?type=dot&folder=finished&file={$m[1]}-{$m[2]}&download=1\"><span class=\"glyphicon glyphicon-picture\"></span> dot</a>\n");
+			print("<a class=\"btn btn-default\" href=\"ajax.php?rebuilddot=1&folder=finished&session={$m[1]}-{$m[2]}\"><span class=\"glyphicon glyphicon-refresh\"></span> rebuild dot</a>\n");
 			print("\t\t\t\t\t</div></td>\n");
 			print("\t\t\t\t</tr>\n");
 		}

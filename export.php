@@ -35,7 +35,7 @@ if ($type === "single") {
 	$file = $_GET["file"];
 	$data = json_decode(file_get_contents($folder . "/" . base64_encode($file)));
 	if ($download) {
-		header("Content-Type: application/csv");
+		header("Content-Type: application/csv; charset=utf-8");
 		header("Content-Disposition: attachment; filename=\"" . $file . ".csv\"");
 		dumpCSV($data);
 		exit();
@@ -69,7 +69,7 @@ if ($type === "single") {
 	$session = $_GET["session"];
 	$session_filename = base64_encode($session);
 	if ($download) {
-		header("Content-Type: application.dot");
+		header("Content-Type: application.dot; charset=utf-8");
 		header("Content-Disposition: attachment; filename=\"" . $session . ".dot\"");
 		print(file_get_contents("dots/{$session_filename}"));
 		exit();
