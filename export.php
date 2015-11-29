@@ -1,6 +1,6 @@
 <?php
 
-function dump($data) {
+function dumpCSV($data) {
 	print("\"Time\";\"\";\"Action\";\"Source\";\"Destination\";\"from\";\"to\"\n");
 	foreach ($data as $d) {
 		$d[2] = utf8_decode($d[2]);
@@ -16,27 +16,65 @@ function dump($data) {
 		}
 	}
 }
+function startPre() {
+	print("<html>\n<head>\n<meta charset=\"utf8\" />\n</head>\n<body>\n<pre>\n");
+}
+function stopPre() {
+	print("</pre>\n</body>\n</html>\n");
+}
 
-	$folder = $_GET["folder"];
-	if (strpos($folder, "/") !== FALSE) die("nope.");
+
+if (!isset($_GET["type"])) die("no type given.");
+$type = $_GET["type"];
+if (!isset($_GET["folder"])) die("no folder given.");
+$folder = $_GET["folder"];
+if (strpos($folder, "/")) die("nice try...");
+$download = isset($_GET["download"]);
+
+if ($type === "single") {
 	$file = $_GET["file"];
 	$data = json_decode(file_get_contents($folder . "/" . base64_encode($file)));
-	if (isset($_GET["download"])) {
+	if ($download) {
 		header("Content-Type: application/csv");
 		header("Content-Disposition: attachment; filename=\"" . $file . ".csv\"");
-		dump($data);
+		dumpCSV($data);
+		exit();
+	} else {
+		startPre();
+		dumpCSV($data);
+		stopPre();
+	}
+} else if ($type === "group") {
+	$experiment = $_GET["experiment"];
+	$tmpfile = tempnam(sys_get_temp_dir(), $experiment);
+	$zip = new ZipArchive();
+	if ($zip->open($tmpfile, ZIPARCHIVE::CREATE) !== true) {
+		die("failed creating zip file.");
+	}
+	foreach (scandir($folder) as $file) {
+		if (preg_match("/(.*)-(.*)/", base64_decode($file), $m)) {
+			if ($m[1] == $experiment) {
+				$zip->addFile("dots/{$file}", "{$m[2]}.dot");
+				$zip->addFile("{$folder}/{$file}", "{$m[2]}");
+			}
+		}
+	}
+	$zip->close();
+	header("Content-type: application/zip"); 
+	header("Content-Disposition: attachment; filename=\"{$experiment}.{$folder}.zip\""); 
+	readfile($tmpfile);
+	unlink($tmpfile);
+	
+} else if ($type === "dot") {
+	$session = $_GET["session"];
+	$session_filename = base64_encode($session);
+	if ($download) {
+		header("Content-Type: application.dot");
+		header("Content-Disposition: attachment; filename=\"" . $session . ".dot\"");
+		print(file_get_contents("dots/{$session_filename}"));
 		exit();
 	}
-?>
-<html>
-<head>
-	<meta charset="utf8" />
-</head>
-<body>
-<pre>
-<?php
-	dump($data);
-?>
-</pre>
-</body>
-</html>
+	startPre();
+	readfile("dots/{$session_filename}");
+	stopPre();
+}

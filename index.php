@@ -27,10 +27,10 @@ function validateForm() {
 			<a class="btn btn-default" href="admin.php">Admin</a>
 		</div>
 <?php } ?>
-		<h2>Experiment starten</h2>
+		<h2>Concept Map starten</h2>
 		<form action="test.php" onsubmit="return validateForm()" class="form-horizontal">
 			<div class="form-group">
-				<label for="experiment" class="col-sm-2 control-label">Experiment</label>
+				<label for="experiment" class="col-sm-2 control-label">Thema</label>
 				<div class="col-sm-10">
 				<select name="experiment" id="experiment" class="form-control">
 <?php
@@ -78,6 +78,15 @@ function validateForm() {
 	if ($admin) {
 ?>		
 		<h2>Current sessions</h2>
+
+		<h4>Download all:
+<?php
+	foreach ($experiments as $key => $val) {
+		print("\t\t\t<a class=\"btn btn-default\" href=\"export.php?type=group&folder=sessions&experiment={$key}\">{$key} <span class=\"glyphicon glyphicon-download-alt\"></span></a>\n");
+	}
+?>
+		</h4>
+
 		<table class="table">
 			<thead>
 				<tr>
@@ -107,6 +116,15 @@ function validateForm() {
 		</table>
 
 		<h2>Finished sessions</h2>
+		
+		<h4>Download all:
+<?php
+	foreach ($experiments as $key => $val) {
+		print("\t\t\t<a class=\"btn btn-default\" href=\"export.php?type=group&folder=finished&experiment={$key}\">{$key} <span class=\"glyphicon glyphicon-download-alt\"></span></a>\n");
+	}
+?>
+		</h4>
+		
 		<table class="table">
 			<thead>
 				<tr>
@@ -124,8 +142,8 @@ function validateForm() {
 			print("\t\t\t\t\t<td>{$m[2]}</td>\n");
 			print("\t\t\t\t\t<td><div class=\"btn-group\" role=\"group\">\n");
 			print("<a class=\"btn btn-default\" href=\"show.php?experiment={$m[1]}&session={$m[2]}\"><span class=\"glyphicon glyphicon-search\"></span> show</a>\n");
-			print("<a class=\"btn btn-default\" href=\"export.php?folder=finished&file={$m[1]}-{$m[2]}&download=1\"><span class=\"glyphicon glyphicon-download-alt\"></span> download</a>\n");
-			print("<a class=\"btn btn-default\" href=\"image.php?session={$m[1]}-{$m[2]}\"><span class=\"glyphicon glyphicon-picture\"></span> dot</a>\n");
+			print("<a class=\"btn btn-default\" href=\"export.php?type=single&folder=finished&file={$m[1]}-{$m[2]}&download=1\"><span class=\"glyphicon glyphicon-download-alt\"></span> download</a>\n");
+			print("<a class=\"btn btn-default\" href=\"export.php?type=dot&file={$m[1]}-{$m[2]}&download=1\"><span class=\"glyphicon glyphicon-picture\"></span> dot</a>\n");
 			print("\t\t\t\t\t</div></td>\n");
 			print("\t\t\t\t</tr>\n");
 		}
