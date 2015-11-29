@@ -16,7 +16,7 @@
     padding-right: 25px;
     position: absolute;
     z-index: 4;
-    width: 14em;
+    width: 13em;
     border: 1px solid #2e6f9a;
     box-shadow: 2px 2px 19px #e0e0e0;
     -o-box-shadow: 2px 2px 19px #e0e0e0;
