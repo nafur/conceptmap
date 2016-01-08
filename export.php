@@ -32,7 +32,7 @@ if (strpos($folder, "/")) die("nice try...");
 $download = isset($_GET["download"]);
 
 if ($type === "single") {
-	$file = $_GET["file"];
+	$file = $_GET["session"];
 	$data = json_decode(file_get_contents($folder . "/" . base64_encode($file)));
 	if ($download) {
 		header("Content-Type: application/csv; charset=utf-8");
