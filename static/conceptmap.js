@@ -238,9 +238,12 @@ jsPlumb.ready(function () {
 
     });
 
-    //while (restore_data.length > 0) {
-    //	future.push(restore_data.pop());
-    //}
+    while (restore_data.length > 0) {
+    	future.push(restore_data.pop());
+    }
+    while (future.length > 0) {
+    	forward();
+    }
     if ($("#zeit").length) {
 		setInterval(checkTime, 500);
     }
