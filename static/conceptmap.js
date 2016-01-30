@@ -37,7 +37,7 @@ jsPlumb.ready(function () {
 		$('#zeit').html(min + ':' + sek);
 	}
 
-	funciton logAction(action) {
+	function logAction(action) {
 		console.log("Did " + action);
 		past.push(action);
 	}
