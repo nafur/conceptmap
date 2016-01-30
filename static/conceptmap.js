@@ -42,6 +42,7 @@ jsPlumb.ready(function () {
 		} else if (action[0] == "rename") {
 			var conn = instance.getConnections({source: action[3], target: action[5]})[0];
 			conn.getOverlay("label").setLabel(action[7]);
+			logAction(action);
 		}
 	}
 
