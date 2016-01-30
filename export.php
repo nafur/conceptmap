@@ -54,7 +54,6 @@ if ($type === "single") {
 	$tmpfile = tempnam(sys_get_temp_dir(), base64_encode($experiment));
 	$tmpfile = "dots/tmp_" . base64_encode($experiment);
 	$zip = new ZipArchive();
-	print("Trying to create $tmpfile<br />");
 	if ($zip->open($tmpfile, ZIPARCHIVE::CREATE) !== true) {
 		die("failed creating zip file.");
 	}
