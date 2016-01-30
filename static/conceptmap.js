@@ -173,7 +173,7 @@ jsPlumb.ready(function () {
         info.connection.getOverlay("label").setLabel("");
         $(".edit").editable(function(value,settings,arg){
         	if (arg != value) {
-				logAction(action(rename, info, arg, value));
+				logAction(action("rename", info, arg, value));
 			}
         	return (value);
 		},{
