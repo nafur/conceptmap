@@ -26,6 +26,15 @@ jsPlumb.ready(function () {
 		if (sek < 10) sek = '0' + sek;
 		$('#zeit').html(min + ':' + sek);
 	}
+	function triggerClick(elem) {
+    	if (elem.click) elem.click();
+    	else {
+			var ev = document.createEvent("MouseEvents");
+			ev.initEvent("click", true /* bubble */, true /* cancelable */);
+			elem.dispatchEvent(ev);
+    	}
+    }
+
 
 	function logAction(action) {
 		console.log("Did " + action);
@@ -34,15 +43,17 @@ jsPlumb.ready(function () {
 	function doAction(action) {
 		console.log("Doing " + action);
 		if (action[0] == "connect") {
-			instance.connect({source: action[3], target: action[5]});
+			var conn = instance.connect({source: action[3], target: action[5]});
 		} else if (action[0] == "detach") {
 			var conn = instance.getConnections({source: action[3], target: action[5]})[0];
 			jsPlumb.detach(conn);
-			logAction(action);
+			past.push(action);
 		} else if (action[0] == "rename") {
 			var conn = instance.getConnections({source: action[3], target: action[5]})[0];
-			conn.getOverlay("label").setLabel(action[7]);
-			logAction(action);
+			var label = $(conn.getOverlay("label").getElement());
+			label.editable("hide");
+	    	label.editable("setValue", action[7]);
+			past.push(action);
 		}
 	}
 
@@ -149,32 +160,28 @@ jsPlumb.ready(function () {
     // initialise draggable elements.
     instance.draggable(windows, {containment: "parent", handle: ".w-drag"});
 
-    function triggerClick(elem) {
-    	if (elem.click) elem.click();
-    	else {
-			var ev = document.createEvent("MouseEvents");
-			ev.initEvent("click", true /* bubble */, true /* cancelable */);
-			elem.dispatchEvent(ev);
-    	}
-    }
 
     // On create connection
     instance.bind("connection", function (info) {
 		logAction(action("connect", info));
 		instance.recalculateOffsets("conceptmap");
 		instance.repaintEverything();
-        info.connection.getOverlay("label").setLabel("");
-        $(".edit").editable(function(value,settings,arg){
-        	if (arg != value) {
-				logAction(action("rename", info, arg, value));
-			}
-        	return (value);
-		},{
-			submitdata: function(val,settings) { return {original: this.revert}; },
-			onblur: "submit"
+		label = info.connection.getOverlay("label").getElement();
+		$(label).on("init", function(e, editable) {
+			window.setTimeout(function() {
+				editable.show();
+			}, 100);
 		});
-		var label = info.connection.getOverlay("label").canvas;
-    	triggerClick(label);
+		$(label).editable({
+			onblur: "submit",
+			mode: "popup",
+			showbuttons: "false",
+			send: "never",
+			placeholder: "",
+			success: function(response, newvalue){
+				logAction(action("rename", info, $(label).editable("getValue", true), newvalue));
+			}
+		});
     });
 
     function exportAsMap() {
