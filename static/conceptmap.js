@@ -8,14 +8,6 @@ jsPlumb.ready(function () {
     function stateName(s) {
     	return $("#" + s + "-name").html();
     }
-	function log(s, c, d1, d2, d3) {
-		var t = $.now() - baseTime;
-		var data = [s, t, stateName(c.sourceId), c.sourceId, stateName(c.targetId), c.targetId];
-		if (d1 !== null && d1 !== undefined) data.push(d1);
-		if (d2 !== null && d2 !== undefined) data.push(d2);
-		if (d3 !== null && d3 !== undefined) data.push(d3);
-		past.push(data);
-	}
 	function action(act,conn,d1,d2,d3) {
 		var t = $.now() - baseTime;
 		var data = [act, t, stateName(conn.sourceId), conn.sourceId, stateName(conn.targetId), conn.targetId];
@@ -30,9 +22,7 @@ jsPlumb.ready(function () {
 		var diff = Math.floor((curTime - baseTime) / 1000);
 		var min = Math.floor(diff / 60);
 		var sek = Math.floor(diff % 60);
-
 		if (min == 10 && sek == 0) alert("Bitte kommen Sie zum Ende.");
-
 		if (sek < 10) sek = '0' + sek;
 		$('#zeit').html(min + ':' + sek);
 	}
