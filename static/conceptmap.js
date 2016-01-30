@@ -50,12 +50,14 @@ jsPlumb.ready(function () {
 		if (action[0] == "connect") {
 			var c = instance.getConnections({source: action[3], target: action[5]})[0];
 			jsPlumb.detach(c);
+			future.push(action);
 		} else if (action[0] == "detach") {
 			var c = instance.connect({source: action[3], target: action[5]});
 			future.push(action);
 		} else if (action[0] == "rename") {
 			var c = instance.getConnections({source: action[3], target: action[5]})[0];
 			c.getOverlay("label").setLabel(action[6]);
+			future.push(action);
 		}
 	}
 
