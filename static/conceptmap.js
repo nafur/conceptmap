@@ -16,9 +16,9 @@ jsPlumb.ready(function () {
 		if (d3 !== null && d3 !== undefined) data.push(d3);
 		past.push(data);
 	}
-	function action(s,t,d1,d2,d3) {
+	function action(act,conn,d1,d2,d3) {
 		var t = $.now() - baseTime;
-		var data = [s, t, stateName(c.sourceId), c.sourceId, stateName(c.targetId), c.targetId];
+		var data = [act, t, stateName(conn.sourceId), conn.sourceId, stateName(conn.targetId), conn.targetId];
 		if (d1 !== null && d1 !== undefined) data.push(d1);
 		if (d2 !== null && d2 !== undefined) data.push(d2);
 		if (d3 !== null && d3 !== undefined) data.push(d3);
