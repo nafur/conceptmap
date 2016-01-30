@@ -21,22 +21,6 @@ function loadAsCSV($filename) {
 	$data = json_decode(file_get_contents($filename));
 	return toCSV($data);
 }
-function dumpCSV($data) {
-	print("\"Time\";\"\";\"Action\";\"Source\";\"Destination\";\"from\";\"to\"\n");
-	foreach ($data as $d) {
-		$d[2] = utf8_decode($d[2]);
-		$d[4] = utf8_decode($d[4]);
-		if ($d[0] == "connect") {
-			print("\"{$d[1]}\";\"ms\";\"Connecting\";\"{$d[2]}\";\"{$d[4]}\"\n");
-		} else if ($d[0] == "detach") {
-			print("\"{$d[1]}\";\"ms\";\"Disconnecting\";\"{$d[2]}\";\"{$d[4]}\"\n");
-		} else if ($d[0] == "rename") {
-			$d[6] = utf8_decode($d[6]);
-			$d[7] = utf8_decode($d[7]);
-			print("\"{$d[1]}\";\"ms\";\"Renaming\";\"{$d[2]}\";\"{$d[4]}\";\"{$d[6]}\";\"{$d[7]}\"\n");
-		}
-	}
-}
 function startPre() {
 	print("<html>\n<head>\n<meta charset=\"utf8\" />\n</head>\n<body>\n<pre>\n");
 }
