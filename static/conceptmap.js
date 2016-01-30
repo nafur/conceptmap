@@ -38,21 +38,21 @@ jsPlumb.ready(function () {
 		} else if (action[0] == "detach") {
 			var conn = instance.getConnections({source: action[3], target: action[5]})[0];
 			jsPlumb.detach(conn);
+			logAction(action);
 		} else if (action[0] == "rename") {
 			var conn = instance.getConnections({source: action[3], target: action[5]})[0];
 			conn.getOverlay("label").setLabel(action[7]);
 		}
-		logAction(action);
 	}
 
 	function undoAction(action) {
 		console.log("Undoing " + action);
-		future.push(action);
 		if (action[0] == "connect") {
 			var c = instance.getConnections({source: action[3], target: action[5]})[0];
 			jsPlumb.detach(c);
 		} else if (action[0] == "detach") {
 			var c = instance.connect({source: action[3], target: action[5]});
+			future.push(action);
 		} else if (action[0] == "rename") {
 			var c = instance.getConnections({source: action[3], target: action[5]})[0];
 			c.getOverlay("label").setLabel(action[6]);
