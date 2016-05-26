@@ -6,6 +6,7 @@ $data = $_POST["data"];
 $session_filename = base64_encode($session);
 
 function exportToDot($data) {
+	global $session;
 	$s = "digraph g {\n";
 	foreach ($data as $k => $d) {
 		list($from,$to) = split("###", $k);
