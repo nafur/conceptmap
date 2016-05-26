@@ -38,8 +38,8 @@ var restore_data = JSON.parse('<?php print(json_encode($data)); ?>');
 				<a class="navbar-brand" href="#">ConceptMap</a>
 			</div>
 			<ul class="nav navbar-nav navbar-right">
-				<li><a href="#" id="backward"><span class="glyphicon glyphicon-arrow-left"></span> Rückwärts</a></li>
-				<li><a href="#" id="forward"><span class="glyphicon glyphicon-arrow-right"></span> Vorwärts</a></li>
+				<!--<li><a href="#" id="backward"><span class="glyphicon glyphicon-arrow-left"></span> Rückwärts</a></li>
+				<li><a href="#" id="forward"><span class="glyphicon glyphicon-arrow-right"></span> Vorwärts</a></li>-->
 				<li><a href="#" id="finish"><span class="glyphicon glyphicon-ok"></span> Fertig</a></li>
 				<!--<li><a href="#" id="screenshot"><span class="glyphicon glyphicon-ok"></span> Screenshot</a></li>-->
                <li><a href="#"><span class="glyphicon glyphicon-time"></span>	 <span id="zeit"></span></a> </li>
