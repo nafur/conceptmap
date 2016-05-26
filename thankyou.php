@@ -10,6 +10,15 @@
 			<div class="panel-heading">Vielen Dank!</div>
 			<div class="panel-body">
 			Deine ConceptMap wurde gespeichert!
+<?php
+	if (isset($_REQUEST["continueWith"])) {
+?>
+			<br />
+			Falls du später nochmal daran weiterarbeiten willst, benutze bitten folgenden Link:<br />
+			<a href="<?php print($_REQUEST["continueWith"]); ?>"><?php print($_REQUEST["continueWith"]); ?></a>
+<?php
+	}
+?>
 			</div>
 		</div>
 	</body>

@@ -22,11 +22,12 @@
 		<script src="static/springy.js"></script>
 		<script src="static/html2canvas.js"></script>
 		<script src="static/html2canvas.svg.js"></script>
-		<script src="static/cytoscape.min.js"></script>
+		<script src="static/cytoscape-2.6.12.min.js"></script>
 		<script>
 var experiment = "<?php print($experiment_name); ?>";
 var session = "<?php print($session); ?>";
 var restore_data = JSON.parse('<?php print(json_encode($data)); ?>');
+var doLayout = "<?php print($doLayout); ?>";
 		</script>
 		<script src="static/conceptmap.js"></script>
 

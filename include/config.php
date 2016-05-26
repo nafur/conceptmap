@@ -74,4 +74,10 @@ if (isset($_GET["session"])) {
 
 $session_filename = base64_encode("{$experiment_name}-{$session}");
 $css = $cssconfig[$experiment_name];
+
+if (isset($_GET["restore"])) {
+	copy("finished/{$session_filename}", "sessions/{$session_filename}");
+	$doLayout = 1;
+}
+
 ?>
