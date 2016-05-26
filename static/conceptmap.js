@@ -134,8 +134,10 @@ jsPlumb.ready(function () {
     				url: "ajax.php",
     				data: { "session": experiment + "-" + session, "finish": "1", "data": past },
 	    			success: function(data,status,xhr) {
-    					alert("Vielen Dank!");
-    					$(location).attr("href", "thankyou.php");
+    					//alert("Vielen Dank!");
+    					var url = window.location.origin + window.location.pathname + "?";
+    					url = url + "experiment=" + experiment + "&session=" + session + "&restore=1";
+    					$(location).attr("href", "thankyou.php?continueWith=" + encodeURIComponent(url));
     				}
 	    		});
 	    	}
@@ -248,23 +250,30 @@ jsPlumb.ready(function () {
 		setInterval(checkTime, 500);
     }
 
-	/*
 	// layouting
     function layout() {
 		var instance = window.jsp;
-		var options = {name: "springy", repulsion: 10000, animate: false, padding: 100, infinite: false, maxSimulationTime: 1000, random: true, fit: true, boundingBox: {x1: 0,y1: 0,w: $("#conceptmap").width()-100,h: $("#conceptmap").height()-100}};
+		//var options = {name: "springy", repulsion: 100, animate: false, padding: 50, infinite: false, maxSimulationTime: 1000, random: true, fit: true, boundingBox: {x1: 0,y1: 0,w: $("#conceptmap").width()-100,h: $("#conceptmap").height()-100}};
+		var options = {name: "cose", animate: false, fit: true, boundingBox: {x1: 50,y1: 50,w: $("#conceptmap").width()-300,h: $("#conceptmap").height()-400}};
 //		var options = {name: "cola", maxSimulationTime: 1000, randomize: true, fit: false, boundingBox: {x1: 0,y1: 0,w: $("#conceptmap").width() - 150,h: $("#conceptmap").height() - 150}};
 		var cy = cytoscape({headless: true, layout: options});
-		$('.w').each(function(i,obj){ cy.add({ group: "nodes", data: {id: obj.id}, position: {x: i*20, y: i*20} }); });
+		$('.w').each(function(i,obj){ 
+			// skip if no edge exists.
+			if (instance.getConnections({source: obj.id}) == 0 && instance.getConnections({target: obj.id}) == 0) return;
+			cy.add({ group: "nodes", data: {id: obj.id}, position: {x: i*20, y: i*20} }); 
+		});
 		var cons = instance.getAllConnections();
 		$.each(cons, function(i,obj){ cy.add({ group: "edges", data: {source: obj.sourceId, target: obj.targetId} }); });
 		var layout = cy.makeLayout(options);
 		layout.run();
 		setTimeout(function(){
 			layout.stop();
-			$.each(cy.json().elements.nodes, function(i,obj){ var o = $("#" + obj.data.id); o.css("left",obj.position.x); o.css("top", obj.position.y); o.simulate("drag", {moves: 1, dx: 1, dy: 0}); });
-		}, 1000);
+			$.each(cy.json().elements.nodes, function(i,obj){ var o = $("#" + obj.data.id); o.css("left",obj.position.x); o.css("top", obj.position.y); });
+			//$.each(cy.json().elements.nodes, function(i,obj){ var o = $("#" + obj.data.id); o.simulate("drag", {moves: 1, dx: 1, dy: 1}); });
+			instance.repaintEverything();
+			instance.repaintEverything();
+		}, 500);
 	}
-	$("#layout").click(layout);
-	*/
+	if (doLayout) layout();
+	//$("#layout").click(layout);
 });
