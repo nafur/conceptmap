@@ -135,7 +135,7 @@ jsPlumb.ready(function () {
     				data: { "session": experiment + "-" + session, "finish": "1", "data": past },
 	    			success: function(data,status,xhr) {
     					alert("Vielen Dank!");
-    					$(location).attr("href", "index.php");
+    					$(location).attr("href", "thankyou.php");
     				}
 	    		});
 	    	}
