@@ -35,7 +35,7 @@ var restore_data = JSON.parse('<?php print(json_encode($data)); ?>');
 	<div class="navbar navbar-fluid navbar-inverse navbar-static-top">
 		<div class="container">
 			<div class="navbar-header">
-				<a class="navbar-brand" href="#">ConceptMap</a>
+				<span class="navbar-brand">ConceptMap</span>
 			</div>
 			<ul class="nav navbar-nav navbar-right">
 				<li><a href="info.php" target="_blank"><span class="glyphicon glyphicon-info-sign"></span> Info</a></li>
