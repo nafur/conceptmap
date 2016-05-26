@@ -108,3 +108,8 @@
 }
 
 path, ._jsPlumb_endpoint { cursor:pointer; }
+
+.modal-body ul li {
+	list-style-type: disc;
+	margin-left: 15px;
+}

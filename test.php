@@ -32,7 +32,7 @@ var restore_data = JSON.parse('<?php print(json_encode($data)); ?>');
 
 	</head>
 	<body>
-		<div class="modal fade" id="modal-info" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		<div class="modal" id="modal-info" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 			<div class="modal-dialog" role="document">
 				<div class="modal-content">
 					<div class="modal-header">
@@ -40,13 +40,20 @@ var restore_data = JSON.parse('<?php print(json_encode($data)); ?>');
 						<h4 class="modal-title" id="myModalLabel">Informationen</h4>
 					</div>
 					<div class="modal-body">
-Bei der Erstellung einer Concept Map ist zu beachten:
-- Begriffe sind durch beschriftete Pfeile zu verbinden, die den Zusammenhang darstellen.
-- Jeder Pfeil muss beschriftet sein und ein Verb enthalten.
-- Beziehungen sollten nur zwischen direkten Nachbarn bestehen. Bilden Sie keine Sätze über drei oder mehr Begriffe!
+<h4>Funktionsweise</h4>
+Die Begriffe können mit Drag and Drop verschoben werden.
+Durch Klicken auf die gelben Vierecke erzeugen Sie einen Pfeil, den sie durch ziehen auf einen anderen Begriff mit diesem verbinden. Es öffnet sich anschließend automatisch das Textfeld des Pfeils, welches durch Drücken
+der Enter-Taste geschlossen und durch anklicken erneut geöffnet werden kann. Zum Löschen von Pfeilen dient das sich daran befindliche kleine Kreuz. Zum Einreichen und Beenden der Concept Map drücken Sie bitte auf Fertig. 
+
+<h4>Bitte beachten</h4>
+<ul>
+	<li>Begriffe sind durch beschriftete Pfeile zu verbinden, die den Zusammenhang darstellen.</li>
+	<li>Jeder Pfeil muss beschriftet sein und ein Verb enthalten.</li>
+	<li>Beziehungen sollten nur zwischen direkten Nachbarn bestehen. Bilden Sie keine Sätze über drei oder mehr Begriffe!</li>
+</ul>
 					</div>
 					<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal">Schließen</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal">OK</button>
 					</div>
 				</div>
 			</div>
@@ -57,8 +64,7 @@ Bei der Erstellung einer Concept Map ist zu beachten:
 				<span class="navbar-brand">ConceptMap</span>
 			</div>
 			<ul class="nav navbar-nav navbar-right">
-				<li><button data-toggle="modal" data-target="#modal-info"><span class="glyphicon glyphicon-info-sign"></span> Info</button></li>
-				<!-- Button trigger modal -->
+				<li><button class="btn btn-link navbar-btn" data-toggle="modal" data-target="#modal-info"><span class="glyphicon glyphicon-info-sign"></span> Info</button></li>
 				<!--<li><a href="#" id="backward"><span class="glyphicon glyphicon-arrow-left"></span> Rückwärts</a></li>
 				<li><a href="#" id="forward"><span class="glyphicon glyphicon-arrow-right"></span> Vorwärts</a></li>-->
 				<li><a href="#" id="finish"><span class="glyphicon glyphicon-ok"></span> Fertig</a></li>
