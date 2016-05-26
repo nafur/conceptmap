@@ -164,16 +164,18 @@ jsPlumb.ready(function () {
 
 
     // On create connection
-    instance.bind("connection", function (info) {
+    instance.bind("connection", function (info, original) {
 		logAction(action("connect", info));
 		instance.recalculateOffsets("conceptmap");
 		instance.repaintEverything();
 		label = info.connection.getOverlay("label").getElement();
-		$(label).on("init", function(e, editable) {
-			window.setTimeout(function() {
-				editable.show();
-			}, 100);
-		});
+		if (original) {
+			$(label).on("init", function(e, editable) {
+				window.setTimeout(function() {
+					editable.show();
+				}, 100);
+			});
+		}
 		$(label).editable({
 			onblur: "submit",
 			mode: "popup",
@@ -181,7 +183,7 @@ jsPlumb.ready(function () {
 			send: "never",
 			placeholder: "",
 			success: function(response, newvalue){
-				logAction(action("rename", info, $(label).editable("getValue", true), newvalue));
+				//logAction(action("rename", info, $(label).editable("getValue", true), newvalue));
 			}
 		});
     });
@@ -255,7 +257,6 @@ jsPlumb.ready(function () {
 		var instance = window.jsp;
 		//var options = {name: "springy", repulsion: 100, animate: false, padding: 50, infinite: false, maxSimulationTime: 1000, random: true, fit: true, boundingBox: {x1: 0,y1: 0,w: $("#conceptmap").width()-100,h: $("#conceptmap").height()-100}};
 		var options = {name: "cose", animate: false, fit: true, boundingBox: {x1: 50,y1: 50,w: $("#conceptmap").width()-300,h: $("#conceptmap").height()-400}};
-//		var options = {name: "cola", maxSimulationTime: 1000, randomize: true, fit: false, boundingBox: {x1: 0,y1: 0,w: $("#conceptmap").width() - 150,h: $("#conceptmap").height() - 150}};
 		var cy = cytoscape({headless: true, layout: options});
 		$('.w').each(function(i,obj){ 
 			// skip if no edge exists.
@@ -265,13 +266,14 @@ jsPlumb.ready(function () {
 		var cons = instance.getAllConnections();
 		$.each(cons, function(i,obj){ cy.add({ group: "edges", data: {source: obj.sourceId, target: obj.targetId} }); });
 		var layout = cy.makeLayout(options);
+		layout.pon("layoutstop").then(function(event){
+			$.each(cy.json().elements.nodes, function(i,obj){ var o = $("#" + obj.data.id); o.css("left",obj.position.x); o.css("top", obj.position.y); });
+			instance.repaintEverything();
+			instance.repaintEverything();
+		});
 		layout.run();
 		setTimeout(function(){
 			layout.stop();
-			$.each(cy.json().elements.nodes, function(i,obj){ var o = $("#" + obj.data.id); o.css("left",obj.position.x); o.css("top", obj.position.y); });
-			//$.each(cy.json().elements.nodes, function(i,obj){ var o = $("#" + obj.data.id); o.simulate("drag", {moves: 1, dx: 1, dy: 1}); });
-			instance.repaintEverything();
-			instance.repaintEverything();
 		}, 500);
 	}
 	if (doLayout) layout();
