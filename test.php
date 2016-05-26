@@ -32,13 +32,33 @@ var restore_data = JSON.parse('<?php print(json_encode($data)); ?>');
 
 	</head>
 	<body>
+		<div class="modal fade" id="modal-info" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Schließen"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title" id="myModalLabel">Informationen</h4>
+					</div>
+					<div class="modal-body">
+Bei der Erstellung einer Concept Map ist zu beachten:
+- Begriffe sind durch beschriftete Pfeile zu verbinden, die den Zusammenhang darstellen.
+- Jeder Pfeil muss beschriftet sein und ein Verb enthalten.
+- Beziehungen sollten nur zwischen direkten Nachbarn bestehen. Bilden Sie keine Sätze über drei oder mehr Begriffe!
+					</div>
+					<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Schließen</button>
+					</div>
+				</div>
+			</div>
+		</div>
 	<div class="navbar navbar-fluid navbar-inverse navbar-static-top">
 		<div class="container">
 			<div class="navbar-header">
 				<span class="navbar-brand">ConceptMap</span>
 			</div>
 			<ul class="nav navbar-nav navbar-right">
-				<li><a href="info.php" target="_blank"><span class="glyphicon glyphicon-info-sign"></span> Info</a></li>
+				<li><button data-toggle="modal" data-target="#modal-info"><span class="glyphicon glyphicon-info-sign"></span> Info</button></li>
+				<!-- Button trigger modal -->
 				<!--<li><a href="#" id="backward"><span class="glyphicon glyphicon-arrow-left"></span> Rückwärts</a></li>
 				<li><a href="#" id="forward"><span class="glyphicon glyphicon-arrow-right"></span> Vorwärts</a></li>-->
 				<li><a href="#" id="finish"><span class="glyphicon glyphicon-ok"></span> Fertig</a></li>
