@@ -78,7 +78,11 @@ der Enter-Taste geschlossen und durch anklicken erneut geöffnet werden kann. Zu
 		<div class="conceptmap" id="conceptmap">
 <?php
 	foreach ($experiment as $key => $name) {
-		print("\t\t\t<div class=\"w\" id=\"state{$key}\"><div class=\"w-drag w-drag-box\"><span id=\"state{$key}-name\" class=\"w-drag\">{$name}</span></div> <div class=\"ep\"></div></div>\n");
+		if (empty($name)) {
+			print("\t\t\t<div class=\"w\" id=\"state{$key}\"><div class=\"w-drag w-drag-box\"><span class=\"glyphicon glyphicon-pencil\"></span> <span id=\"state{$key}-name\" class=\"w-drag editable-node\">{$name}</span></div> <div class=\"ep\"></div></div>\n");
+		} else {
+			print("\t\t\t<div class=\"w\" id=\"state{$key}\"><div class=\"w-drag w-drag-box\"><span id=\"state{$key}-name\" class=\"w-drag\">{$name}</span></div> <div class=\"ep\"></div></div>\n");
+		}
 	}
 ?>
     	</div>

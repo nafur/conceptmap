@@ -69,6 +69,10 @@
     cursor: pointer;
 }
 
+.editable-node {
+	cursor: pointer;
+}
+
 .ep {
     position: absolute;
     top: 1.5px;

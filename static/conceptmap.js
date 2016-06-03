@@ -16,6 +16,14 @@ jsPlumb.ready(function () {
 		if (d3 !== null && d3 !== undefined) data.push(d3);
 		return data;
 	}
+	function nodeAction(act,node,d1,d2,d3) {
+		var t = $.now() - baseTime;
+		var data = [act, t, stateName(node), node];
+		if (d1 !== null && d1 !== undefined) data.push(d1);
+		if (d2 !== null && d2 !== undefined) data.push(d2);
+		if (d3 !== null && d3 !== undefined) data.push(d3);
+		return data;
+	}
 
 	function checkTime() {
 		var curTime = $.now();
@@ -54,6 +62,11 @@ jsPlumb.ready(function () {
 			label.editable("hide");
 	    	label.editable("setValue", action[7]);
 			past.push(action);
+		} else if (action[0] == "rename-node") {
+			var label = $("#" + action[3]);
+			label.editable("hide");
+			label.editable("setValue", action[5]);
+			past.push(action);
 		}
 	}
 
@@ -69,6 +82,11 @@ jsPlumb.ready(function () {
 		} else if (action[0] == "rename") {
 			var c = instance.getConnections({source: action[3], target: action[5]})[0];
 			c.getOverlay("label").setLabel(action[6]);
+			future.push(action);
+		} else if (action[0] == "rename-node") {
+			var label = $("#" + action[3]);
+			label.editable("hide");
+			label.editable("setValue", action[4]);
 			future.push(action);
 		}
 	}
@@ -193,8 +211,8 @@ jsPlumb.ready(function () {
     	for (var i = 0; i < past.length; i++) {
     		var a = past[i];
     		if (a[0] == "connect") graph[a[2] + "###" + a[4]] = "";
-    		else if (a[0] == "rename") graph[a[2] + "###" + a[4]] = a[7];
     		else if (a[0] == "detach") delete graph[a[2] + "###" + a[4]];
+    		else if (a[0] == "rename") graph[a[2] + "###" + a[4]] = a[7];
     	}
     	return graph;
     }
@@ -278,4 +296,15 @@ jsPlumb.ready(function () {
 	}
 	if (doLayout) layout();
 	//$("#layout").click(layout);
+	
+	$(".editable-node").editable({
+		onblur: "submit",
+		mode: "popup",
+		showbuttons: "false",
+		send: "never",
+		placeholder: "",
+		success: function(response, newvalue) {
+			logAction(nodeAction("rename-node", $(this).parent().parent().attr("id"), $(this).editable("getValue", true), newvalue));
+		}
+	});
 });
