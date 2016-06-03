@@ -183,7 +183,7 @@ jsPlumb.ready(function () {
 			send: "never",
 			placeholder: "",
 			success: function(response, newvalue){
-				//logAction(action("rename", info, $(label).editable("getValue", true), newvalue));
+				logAction(action("rename", info, $(label).editable("getValue", true), newvalue));
 			}
 		});
     });
