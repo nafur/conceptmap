@@ -1,8 +1,8 @@
 jsPlumb.ready(function () {
 
 	// Action, Time, SourceName, SourceID, TargetName, TargetID, Data1, Data2, Data3
-	var past = new Array();
-	var future = new Array();
+	var past = [];
+	var future = [];
 	var baseTime = $.now();
 
     function stateName(s) {
@@ -52,22 +52,21 @@ jsPlumb.ready(function () {
 		console.log("Doing " + action);
 		if (action[0] == "connect") {
 			var conn = instance.connect({source: action[3], target: action[5]});
+			past.pop();
 		} else if (action[0] == "detach") {
 			var conn = instance.getConnections({source: action[3], target: action[5]})[0];
 			jsPlumb.detach(conn);
-			past.push(action);
 		} else if (action[0] == "rename") {
 			var conn = instance.getConnections({source: action[3], target: action[5]})[0];
 			var label = $(conn.getOverlay("label").getElement());
 			label.editable("hide");
 	    	label.editable("setValue", action[7]);
-			past.push(action);
 		} else if (action[0] == "rename-node") {
 			var label = $("#" + action[3]);
 			label.editable("hide");
 			label.editable("setValue", action[5]);
-			past.push(action);
 		}
+		past.push(action);
 	}
 
 	function undoAction(action) {
@@ -186,7 +185,7 @@ jsPlumb.ready(function () {
 		logAction(action("connect", info));
 		instance.recalculateOffsets("conceptmap");
 		instance.repaintEverything();
-		label = info.connection.getOverlay("label").getElement();
+		var label = info.connection.getOverlay("label").getElement();
 		if (original) {
 			$(label).on("init", function(e, editable) {
 				window.setTimeout(function() {
