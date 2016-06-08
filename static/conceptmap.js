@@ -129,7 +129,7 @@ jsPlumb.ready(function () {
 		for (var i = 0; i < conns.length; i++) {
 			var ol = conns[i].getOverlay("label");
 			var str = ol.canvas.innerHTML;
-			if (str == "Click to edit") res.push(ol.canvas);
+			if (str == "Empty") res.push(ol.canvas);
 		}
 		return res;
 	}
