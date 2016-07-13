@@ -11,9 +11,12 @@
 				<div class="navbar-header">
 					<span class="navbar-brand">cmCreate</span>
 				</div>
+				<ul class="nav navbar-nav navbar-left">
+					<li><a href="index.php"><span class="glyphicon glyphicon-home"></span> Home</a></li>
+				</ul>
 			</div>
 		</div>
-		<div id="main">
+		<div style="padding: 10px">
 			<div class="panel panel-default">
 				<div class="panel-heading">Vielen Dank!</div>
 				<div class="panel-body">
