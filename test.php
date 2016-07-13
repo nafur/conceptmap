@@ -56,6 +56,7 @@ der Enter-Taste geschlossen und durch anklicken erneut geöffnet werden kann. Zu
 	<li>Begriffe sind durch beschriftete Pfeile zu verbinden, die den Zusammenhang darstellen.</li>
 	<li>Jeder Pfeil muss beschriftet sein und ein Verb enthalten.</li>
 	<li>Beziehungen sollten nur zwischen direkten Nachbarn bestehen. Bilden Sie keine Sätze über drei oder mehr Begriffe!</li>
+	<li>Die Positionen der Begriffe werden nicht gespeichert.</li>
 </ul>
 					</div>
 					<div class="modal-footer">
