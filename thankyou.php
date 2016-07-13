@@ -5,7 +5,7 @@
 		<link rel="stylesheet" href="static/bootstrap.min.css" />
         <script	src="static/jquery-1.9.0-min.js"></script>
 	</head>
-	<body style="padding: 10px;">
+	<body>
 		<div class="navbar navbar-fluid navbar-inverse navbar-static-top">
 			<div class="container">
 				<div class="navbar-header">
