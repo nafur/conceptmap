@@ -30,6 +30,11 @@ var restore_data = JSON.parse('<?php print(json_encode($data)); ?>');
 var doLayout = "<?php print($doLayout); ?>";
 		</script>
 		<script src="static/conceptmap.js"></script>
+		<style>
+.modal-open {
+	overflow-y: auto;
+}
+		</style>
 
 	</head>
 	<body>
