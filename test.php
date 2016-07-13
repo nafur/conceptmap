@@ -67,7 +67,7 @@ der Enter-Taste geschlossen und durch anklicken erneut geöffnet werden kann. Zu
 	<div class="navbar navbar-fluid navbar-inverse navbar-static-top">
 		<div class="container">
 			<div class="navbar-header">
-				<span class="navbar-brand">ConceptMap</span>
+				<span class="navbar-brand">cmCreate</span>
 			</div>
 			<ul class="nav navbar-nav navbar-right">
 				<li><button class="btn btn-link navbar-btn" data-toggle="modal" data-target="#modal-info"><span class="glyphicon glyphicon-question-sign"></span> Hilfe</button></li>
